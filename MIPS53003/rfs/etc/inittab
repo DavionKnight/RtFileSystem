@@ -1,0 +1,5 @@
+#console::sysinit:/etc/init.d/rcS
+console::sysinit:/etc/init.d/H20PN1610rcS
+#ttyS0::askfirst:-/bin/sh
+::respawn:-/bin/login
+::ctrlaltdel:/bin/umount -a -r

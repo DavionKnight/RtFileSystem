@@ -1,0 +1,83 @@
+#! /bin/sh
+hostname -F /etc/hostname
+mount -n -t ramfs ramfs /var -o maxsize=104857600
+mount -n -t ramfs ramfs /tmp -o maxsize=10485760
+mount -n -t sysfs none /sys
+mount -n -t ramfs none /dev -o maxsize=10485760
+mount -av -t nonfs,,nodevpts,nosmbfs
+
+mkdir /var/tmp
+mkdir /var/modules
+mkdir /var/run
+mkdir /var/log
+mkdir -p /var/ftp/upload
+chmod 777 /var/ftp/upload
+
+mkdir -p /dev/pts
+mkdir -p /dev/shm
+mdev -s
+mount -a
+echo /sbin/mdev > /proc/sys/kernel/hotplug
+
+mkdir -p /lib/modules/$(uname -r)/
+mv /lib/*.ko /lib/modules/$(uname -r)/
+
+#NandMtdPart=`cat /proc/mtd | grep nand_part0 | sed -e 's/mtd\([^:]*\):.*$/\1/'`
+#mount -t yaffs2 /dev/mtdblock${NandMtdPart} /home/h20ce
+#mount -t yaffs2 /dev/mtdblock${NandMtdPart} /home
+
+ubiattach /dev/ubi_ctrl -m 0
+ubiattach /dev/ubi_ctrl -m 1
+
+mount -t ubifs ubi0_0 /boot/
+#/bin/mount -t ubifs ubi1_0 /home/ -o sync #2015.11.2
+mount -t ubifs ubi1_0 /home/ 
+#/bin/mount -t ubifs ubi1_1 /back/
+
+#NandMtdPart1=`cat /proc/mtd | grep nand_part1 | sed -e 's/mtd\([^:]*\):.*$/\1/'`
+#mount -t yaffs2 /dev/mtdblock${NandMtdPart1} /home/back
+#mount -t yaffs2 /dev/mtdblock${NandMtdPart1} /back
+
+echo 2048 > /proc/sys/net/ipv4/neigh/default/gc_thresh1
+echo 4096 > /proc/sys/net/ipv4/neigh/default/gc_thresh2
+echo 8192 > /proc/sys/net/ipv4/neigh/default/gc_thresh3
+
+xinetd -stayalive -reuse -pidfile /var/run/xinetd.pid
+
+#mknod /dev/fpga c 253 0
+#mknod /dev/spi-mix c 252 0
+
+./fpga write 006c 0001
+
+insmod bdinfo.ko
+insmod wdt.ko
+insmod fpga_int.ko
+
+#start user application
+#/bin/sh /home/h20ce/starter.sh
+#/bin/sh /home/autorun.sh
+sync
+telnet localhost 23
+sync
+
+tftp_cliet_ip=192.168.1.1
+tftp_server_ip=192.168.1.254
+if [ ! -f /home/autorun.sh ]
+then
+	cd /root
+	echo "download applicaion..."
+	/sbin/ifconfig eth0 ${tftp_cliet_ip}
+	sleep 3
+	tftp -g -r tftp_1st.sh ${tftp_server_ip}
+	if [ ! -f tftp_1st.sh ]
+	then
+		echo "  download applicaion failure, please check tftp server"
+	else
+		/bin/chmod 777 /root/tftp_1st.sh
+		/root/tftp_1st.sh ${tftp_server_ip}
+	fi
+else
+	echo "system running..."
+	/bin/chmod 777 /home/autorun.sh
+	/bin/sh /home/autorun.sh
+fi
