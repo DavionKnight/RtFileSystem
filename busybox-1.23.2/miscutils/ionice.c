@@ -18,6 +18,14 @@
 #include <asm/unistd.h>
 #include "libbb.h"
 
+/*add by zhangjj for mips compile error 2016-7-13*/
+#define __NR_ioprio_set              289  
+#define __NR_ioprio_get              290  
+  
+#define SYS_ioprio_set __NR_ioprio_set  
+#define SYS_ioprio_get __NR_ioprio_get
+/*add end*/
+
 static int ioprio_set(int which, int who, int ioprio)
 {
 	return syscall(SYS_ioprio_set, which, who, ioprio);
