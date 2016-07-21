@@ -1,0 +1,79 @@
+{
+    http: {
+        server: {
+            log: {
+                location: 'error.log',
+                level: '2',
+            },
+            listen: [
+                'http://127.0.0.1:4100',
+                'http://127.0.0.1:4200',
+                'https://127.0.0.1:4443',
+                'http://[::1]:4100'
+            ],
+        },
+        ssl: {
+            authority: {
+                file: '',
+                directory:  '',
+            },
+            cache: 512,
+            certificate: '${BIN_DIR}/test.crt',
+            ciphers: [
+                'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',
+                'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
+                'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256',
+                'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256',
+                'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA',
+                'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA',
+                'TLS_DHE_RSA_WITH_AES_128_CBC_SHA256',
+                'TLS_DHE_RSA_WITH_AES_128_CBC_SHA'
+            ],
+            key: '${BIN_DIR}/test.key',
+            logLevel: 5,
+            protocols: [ 'all', '-sslv3', '+tls', '-tlsv1.1', 'tlsv1.2' ],
+            renegotiate: true,
+            ticket: true,
+            timeout: '7days',
+            verify: {
+                client: false,
+                issuer: false,
+            },
+        },
+        documents: 'web',
+        pipeline: {
+            handlers: {
+                espHandler:  'esp',
+                fileHandler: [ '*' ],
+            },
+        },
+/*
+        routes: [{
+            pattern: '^/test/',
+            conditions: {
+                match:     [ '${request:scheme}', '==', '(https|custom)'],
+                exists:    '/tmp/${request:uri}',
+                directory: '/tmp/${request:uri}',
+                // secure:
+                // authorized:
+            }
+        }]
+*/
+        hosts: [ {
+            name: '*embedthis.com',
+            canonical: 'embedthis.com',
+        }, {
+            name: '*appweb.org',
+            canonical: 'appweb.org',
+        }, {
+            attach: ':443',
+            name: '/any|regular|expression/',
+            redirect: 'https://embedthis.com/',
+            __redirect: { to: 'https://embedthis.com/', status: 301 },
+            __target: '301 https://embedthis.com${request:originalUri}',
+        }],
+    },
+    esp: {
+        apps: 'apps/*/esp.json',
+    }
+}

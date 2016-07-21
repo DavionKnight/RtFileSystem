@@ -1,0 +1,556 @@
+/*
+    build/linux-x86-release/platform.me -- MakeMe Embedthis MakeMe for linux-x86-release
+ */
+
+Me.load({
+    main: "${TOP}/main.me",
+    platform: {
+        name: "linux-x86-release",
+        os: "linux",
+        arch: "x86",
+        like: "unix",
+        dist: "ubuntu",
+        profile: "release",
+        dev: "linux-x86-release",
+        cross: false,
+        "arch-map": {
+            x86: "i686",
+            x64: "x86_64",
+        },
+    },
+    dir: {
+        top: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4",
+        me: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-default/bin",
+        work: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4",
+        paks: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks",
+        bld: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build",
+        out: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release",
+        bin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release/bin",
+        inc: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release/inc",
+        lbin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release/bin",
+        lib: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src",
+        obj: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release/obj",
+        src: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src",
+        proj: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/projects",
+        pkg: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release/pkg",
+        rel: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release/img",
+    },
+    prefixes: {
+        root: "/",
+        base: "${prefixes.root}/usr/local",
+        data: "${prefixes.root}",
+        state: "${prefixes.root}/var",
+        app: "${prefixes.base}/lib/makeme",
+        vapp: "${prefixes.app}/0.10.4",
+        bin: "${prefixes.base}/bin",
+        inc: "${prefixes.base}/include",
+        lib: "${prefixes.base}/lib",
+        man: "${prefixes.base}/share/man",
+        sbin: "${prefixes.base}/sbin",
+        etc: "${prefixes.data}/etc/makeme",
+        web: "${prefixes.state}/www/makeme",
+        log: "${prefixes.state}/log/makeme",
+        spool: "${prefixes.state}/spool/makeme",
+        cache: "${prefixes.state}/spool/makeme/cache",
+        src: "makeme-0.10.4",
+    },
+    settings: {
+        author: "Embedthis Software",
+        certs: {
+            days: 3650,
+            bits: 2048,
+            gendh: false,
+        },
+        company: "embedthis",
+        compatible: "0.10",
+        compiler: {
+            hasAtomic: false,
+            hasAtomic64: false,
+            hasDoubleBraces: false,
+            hasDynLoad: true,
+            hasLibEdit: false,
+            hasLibRt: true,
+            hasMmu: true,
+            hasMtune: true,
+            hasPam: false,
+            hasStackProtector: true,
+            hasSync: true,
+            hasSync64: true,
+            hasSyncCas: true,
+            hasUnnamedUnions: true,
+            warnUnused: true,
+            warn64to32: false,
+        },
+        configure: "me --release configure build",
+        configured: true,
+        debug: false,
+        description: "Embedthis MakeMe",
+        ejsOneModule: true,
+        ejscript: {
+            compile: "--debug",
+            db: true,
+            mail: true,
+            mapper: true,
+            shell: true,
+            tar: true,
+            template: true,
+            web: true,
+            zlib: true,
+        },
+        http: {
+            cmd: true,
+            pam: false,
+        },
+        integrate: true,
+        manifest: "installs/manifest.me",
+        mpr: {
+            logging: true,
+        },
+        name: "makeme",
+        platforms: [
+            "local",
+        ],
+        prefixes: "install-prefixes",
+        title: "Embedthis MakeMe",
+        tune: "speed",
+        version: "0.10.4",
+    },
+    targets: {
+        compiler: {
+            compiler: [
+                "-Wno-unused-result",
+                "-Wall",
+                "-O2",
+                "-fPIC",
+            ],
+            configurable: true,
+            defines: [
+                "ME_DEBUG=0",
+                "_REENTRANT",
+                "PIC",
+            ],
+            depends: [],
+            description: "C/C++ Compiler",
+            diagnostic: "Pre-loaded component",
+            discovers: [
+                "vxworks",
+            ],
+            enable: true,
+            files: [],
+            goals: [
+                "compiler",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/me-components",
+            includes: [
+                "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release/inc",
+            ],
+            libpaths: [
+                "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release/bin",
+                "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/build/linux-x86-release/bin",
+            ],
+            libraries: [
+                "rt",
+                "dl",
+                "pthread",
+                "m",
+            ],
+            linker: [
+                "-rdynamic",
+                "-Wl,--enable-new-dtags",
+                "-Wl,-rpath,$ORIGIN/",
+            ],
+            loaded: true,
+            name: "compiler",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/me-components",
+            path: "/usr/bin/gcc",
+            scripts: {
+                config: [
+                    {
+                        home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/me-components",
+                        interpreter: "ejs",
+                        script: "[function Function]",
+                    },
+                ],
+            },
+            topLevel: true,
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+        ejscript: {
+            configurable: true,
+            depends: [
+                "libejs",
+                "zlib",
+            ],
+            description: "Ejscript Language",
+            diagnostic: "Pre-loaded component",
+            enable: true,
+            files: [],
+            goals: [
+                "ejscript",
+                "component",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/me-components",
+            loaded: true,
+            name: "ejscript",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/me-components",
+            requires: [
+                "zlib",
+            ],
+            scripts: {
+                config: [
+                    {
+                        home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/me-components",
+                        interpreter: "ejs",
+                        script: "[function Function]",
+                    },
+                ],
+            },
+            topLevel: true,
+            type: "component",
+            uses: [
+                "sqlite",
+            ],
+            vars: {
+            },
+        },
+        http: {
+            configurable: true,
+            depends: [
+                "libhttp",
+            ],
+            description: "Embedthis Http Library",
+            diagnostic: "Pre-loaded component",
+            enable: true,
+            files: [],
+            goals: [
+                "http",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/http",
+            loaded: true,
+            name: "http",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/http",
+            requires: [
+                "pcre",
+            ],
+            scripts: {
+            },
+            topLevel: true,
+            type: "component",
+            uses: [
+                "ssl",
+            ],
+            vars: {
+            },
+        },
+        lib: {
+            configurable: true,
+            depends: [],
+            description: "Library Archive Tool",
+            diagnostic: "Pre-loaded component",
+            enable: true,
+            files: [],
+            goals: [
+                "lib",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/me-components",
+            ifdef: [
+                "compiler",
+            ],
+            loaded: true,
+            name: "lib",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/me-components",
+            path: "/usr/bin/ar",
+            scripts: {
+            },
+            topLevel: true,
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+        matrixssl: {
+            bare: true,
+            configurable: true,
+            depends: [],
+            diagnostic: "Using the \"mbedtls\" SSL provider instead.",
+            enable: false,
+            files: [],
+            goals: [
+                "component",
+                "matrixssl",
+            ],
+            home: ".",
+            name: "matrixssl",
+            scripts: {
+            },
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+        mbedtls: {
+            configurable: true,
+            conflicts: [
+                "openssl",
+                "matrixssl",
+                "nanossl",
+            ],
+            depends: [
+                "libmpr-mbedtls",
+                "libmbedtls",
+            ],
+            description: "MbedTLS Support",
+            diagnostic: "Pre-loaded component",
+            enable: true,
+            files: [],
+            goals: [
+                "mbedtls",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/mpr-mbedtls",
+            ifdef: [
+                "ssl",
+            ],
+            loaded: true,
+            location: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/mpr-mbedtls",
+            name: "mbedtls",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/mpr-mbedtls",
+            scripts: {
+            },
+            topLevel: true,
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+        mpr: {
+            configurable: true,
+            depends: [
+                "libmpr",
+            ],
+            description: "Embedthis Multithreaded Portable Runtime",
+            diagnostic: "Pre-loaded component",
+            enable: true,
+            files: [],
+            goals: [
+                "mpr",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/mpr",
+            loaded: true,
+            name: "mpr",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/mpr",
+            scripts: {
+            },
+            topLevel: true,
+            type: "component",
+            uses: [
+                "ssl",
+            ],
+            vars: {
+            },
+        },
+        nanossl: {
+            bare: true,
+            configurable: true,
+            depends: [],
+            diagnostic: "Using the \"mbedtls\" SSL provider instead.",
+            enable: false,
+            files: [],
+            goals: [
+                "component",
+                "nanossl",
+            ],
+            home: ".",
+            name: "nanossl",
+            scripts: {
+            },
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+        openssl: {
+            configurable: true,
+            conflicts: [
+                "mbedtls",
+                "matrixssl",
+                "nanossl",
+            ],
+            depends: [
+                "libmpr-openssl",
+            ],
+            description: "OpenSSL Support",
+            diagnostic: "Using the \"mbedtls\" SSL provider instead.",
+            enable: false,
+            files: [],
+            goals: [
+                "openssl",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/mpr-openssl",
+            ifdef: [
+                "ssl",
+            ],
+            loaded: true,
+            name: "openssl",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/mpr-openssl",
+            scripts: {
+                config: [
+                    {
+                        home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/mpr-openssl",
+                        interpreter: "ejs",
+                        script: "[function Function]",
+                    },
+                ],
+            },
+            topLevel: true,
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+        osdep: {
+            configurable: true,
+            depends: [
+                "osdep.h",
+            ],
+            description: "O/S Dependent Layer",
+            diagnostic: "Pre-loaded component",
+            enable: true,
+            files: [],
+            goals: [
+                "osdep",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/osdep",
+            loaded: true,
+            name: "osdep",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/osdep",
+            scripts: {
+            },
+            topLevel: true,
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+        pcre: {
+            configurable: true,
+            depends: [
+                "libpcre",
+            ],
+            description: "PCRE Library",
+            diagnostic: "Pre-loaded component",
+            enable: true,
+            files: [],
+            goals: [
+                "pcre",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/pcre",
+            loaded: true,
+            name: "pcre",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/pcre",
+            scripts: {
+            },
+            topLevel: true,
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+        ssl: {
+            configurable: true,
+            depends: [],
+            description: "Secure Socket Layer Interface (MbedTLS Support)",
+            diagnostic: "Pre-loaded component",
+            discovers: [
+                "mbedtls",
+                "openssl",
+                "matrixssl",
+                "nanossl",
+            ],
+            enable: true,
+            files: [],
+            goals: [
+                "ssl",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/ssl",
+            loaded: true,
+            name: "ssl",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/ssl",
+            scripts: {
+                config: [
+                    {
+                        home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/ssl",
+                        interpreter: "ejs",
+                        script: "[function Function]",
+                    },
+                ],
+                without: [
+                    {
+                        home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/paks/ssl",
+                        interpreter: "ejs",
+                        script: "[function Function]",
+                    },
+                ],
+            },
+            topLevel: true,
+            type: "component",
+            uses: [
+                "mbedtls",
+                "openssl",
+                "matrixssl",
+                "nanossl",
+            ],
+            vars: {
+            },
+            provider: "mbedtls",
+        },
+        vxworks: {
+            bare: true,
+            configurable: true,
+            depends: [],
+            diagnostic: "Cannot find definition for component: vxworks.me",
+            enable: false,
+            files: [],
+            goals: [
+                "component",
+                "vxworks",
+            ],
+            home: ".",
+            name: "vxworks",
+            scripts: {
+            },
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+        zlib: {
+            configurable: true,
+            depends: [
+                "libzlib",
+            ],
+            description: "Zlib Library",
+            diagnostic: "Pre-loaded component",
+            enable: true,
+            files: [],
+            goals: [
+                "zlib",
+            ],
+            home: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/zlib",
+            loaded: true,
+            name: "zlib",
+            origin: "/home/kevin/works/projects/H20PN-2000/drivers/makeme-0.10.4/src/zlib",
+            scripts: {
+            },
+            topLevel: true,
+            type: "component",
+            uses: [],
+            vars: {
+            },
+        },
+    },
+    env: {
+    },
+})
