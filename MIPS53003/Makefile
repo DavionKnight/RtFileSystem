@@ -13,7 +13,7 @@ COUNT = 50
 BLOCK_SIZE = 1M
 
 all:rootfs
-
+	rm ramdisk.gz
 
 
 #make a null ramdisk file
@@ -29,7 +29,7 @@ ramdisk: make_tmp FORCE
 	sudo mount -t $(FS) -o loop ./ramdisk $(TMPDIR)
 	sudo cp -dpR $(ROOTFS_DIR)/* $(TMPDIR)
 	sudo cp extfiles/* $(TMPDIR)
-	sudo cp ssh-tools/* $(TMPDIR)/usr/sbin
+#	sudo cp ssh-tools/* $(TMPDIR)/usr/sbin
 	sudo umount $(TMPDIR)
 
 
