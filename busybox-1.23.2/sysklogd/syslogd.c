@@ -180,9 +180,10 @@ struct globals {
 	char printbuf[MAX_READ*2 + 128];
 };
 
+#define LOG_FILE  	"/home/klog/klog.txt"
 static const struct init_globals init_data = {
 	.logFile = {
-		.path = "/var/log/messages",
+		.path = LOG_FILE,		/*modify by zhangjj 2016-7-29*/
 		.fd = -1,
 	},
 #ifdef SYSLOGD_MARK
@@ -645,39 +646,43 @@ static void log_locally(time_t now, char *msg, logFile_t *log_file)
 
 #if ENABLE_FEATURE_ROTATE_LOGFILE
 	if (G.logFileSize && log_file->isRegular && log_file->size > G.logFileSize) {
-		if (G.logFileRotate) { /* always 0..99 */
-			int i = strlen(log_file->path) + 3 + 1;
-			char oldFile[i];
-			char newFile[i];
-			i = G.logFileRotate - 1;
-			/* rename: f.8 -> f.9; f.7 -> f.8; ... */
-			while (1) {
-				sprintf(newFile, "%s.%d", log_file->path, i);
-				if (i == 0) break;
-				sprintf(oldFile, "%s.%d", log_file->path, --i);
-				/* ignore errors - file might be missing */
-				rename(oldFile, newFile);
+#if 1 /*Modify by zhangjj stop rotate and stop print when file size reach the goal size 2016-7-28*/
+			return;
+#else
+			if (G.logFileRotate) { /* always 0..99 */
+				int i = strlen(log_file->path) + 3 + 1;
+				char oldFile[i];
+				char newFile[i];
+				i = G.logFileRotate - 1;
+				/* rename: f.8 -> f.9; f.7 -> f.8; ... */
+				while (1) {
+					sprintf(newFile, "%s.%d", log_file->path, i);
+					if (i == 0) break;
+					sprintf(oldFile, "%s.%d", log_file->path, --i);
+					/* ignore errors - file might be missing */
+					rename(oldFile, newFile);
+				}
+				/* newFile == "f.0" now */
+				rename(log_file->path, newFile);
 			}
-			/* newFile == "f.0" now */
-			rename(log_file->path, newFile);
-		}
 
-		/* We may or may not have just renamed the file away;
-		 * if we didn't rename because we aren't keeping any backlog,
-		 * then it's time to clobber the file. If we did rename it...,
-		 * incredibly, if F and F.0 are hardlinks, POSIX _demands_
-		 * that rename returns 0 but does not remove F!!!
-		 * (hardlinked F/F.0 pair was observed after
-		 * power failure during rename()).
-		 * So ensure old file is gone in any case:
-		 */
-		unlink(log_file->path);
+			/* We may or may not have just renamed the file away;
+			 * if we didn't rename because we aren't keeping any backlog,
+			 * then it's time to clobber the file. If we did rename it...,
+			 * incredibly, if F and F.0 are hardlinks, POSIX _demands_
+			 * that rename returns 0 but does not remove F!!!
+			 * (hardlinked F/F.0 pair was observed after
+			 * power failure during rename()).
+			 * So ensure old file is gone in any case:
+			 */
+			unlink(log_file->path);
 #ifdef SYSLOGD_WRLOCK
-		fl.l_type = F_UNLCK;
-		fcntl(log_file->fd, F_SETLKW, &fl);
+			fl.l_type = F_UNLCK;
+			fcntl(log_file->fd, F_SETLKW, &fl);
 #endif
-		close(log_file->fd);
-		goto reopen;
+			close(log_file->fd);
+			goto reopen;
+#endif
 	}
 /* TODO: what to do on write errors ("disk full")? */
 	len = full_write(log_file->fd, msg, len);
@@ -1002,6 +1007,78 @@ static void do_syslogd(void)
 #undef recvbuf
 }
 
+//#define LOG_FILE  	"/home/klog/klog.txt"
+#define LOG_DIR		"/home/klog"
+#define FILE_NUM  5
+#define LOG2FILE_ENABLE		0x1
+#define LOG2FILE_DISABLE	0x2 
+#define LOG2FILE_SIZE		(2*1024*1024) 
+int mk_dir()
+{
+	DIR *logdir = NULL;  
+	char dir[20] = LOG_DIR;
+	if((logdir= opendir(dir))==NULL)
+	{  
+		int ret = mkdir(dir, 0);
+		if (ret != 0)  
+		{  
+			return -1;  
+		}  
+	}
+	return 0;
+}
+void backup_logfile()
+{
+        int i = 0;
+	int ret = 0;
+	char filen[20] = {0};
+	char fileold[20] = {0};
+	int  filp = NULL;
+
+	if(-1 == mk_dir())
+	{
+		printf("create log directory error\n");
+		return;
+	}	
+
+	/*if logfile is not exist,do not do anything*/
+	if(access(LOG_FILE, 0))
+	{
+		return;
+	}
+	/*find first file that is not exist*/
+	for(i = 1; i <= FILE_NUM; i++)
+	{
+		sprintf(filen, "%s%d", LOG_FILE, i);		
+		if(access(filen, 0))
+		{
+			break;
+		}
+	}	
+	if((FILE_NUM+1) == i)	/*if all exist*/	
+	{
+		for(i = 1; i <= FILE_NUM+1; i++)
+		{
+			memcpy(fileold, filen, sizeof(fileold));
+			sprintf(filen, "%s%d", LOG_FILE, i);		
+			if(1 == i)	
+				unlink(filen);	/*delete the first one*/	
+			else if(FILE_NUM+1 == i)
+			{
+				if(rename(LOG_FILE, fileold))
+					return;
+			}
+			else
+				if(rename(filen, fileold))
+					return;
+		}
+		
+	}
+	else 
+		if(rename(LOG_FILE, filen))
+			return;
+	return;
+}
 int syslogd_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
 int syslogd_main(int argc UNUSED_PARAM, char **argv)
 {
@@ -1062,6 +1139,9 @@ int syslogd_main(int argc UNUSED_PARAM, char **argv)
 
 	//umask(0); - why??
 	write_pidfile(CONFIG_PID_FILE_PATH "/syslogd.pid");
+
+	/*backup logfiles add by zhangjj 2016-7-29*/
+	backup_logfile();	
 
 	do_syslogd();
 	/* return EXIT_SUCCESS; */

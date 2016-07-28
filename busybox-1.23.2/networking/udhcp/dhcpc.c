@@ -30,6 +30,7 @@
 #include <linux/if_packet.h>
 
 /*add by zhangjj for mips compile not defined 2016-7-13*/
+#if 0
 #define PACKET_AUXDATA			8
 struct tpacket_auxdata {
 	__u32		tp_status;
@@ -39,6 +40,7 @@ struct tpacket_auxdata {
 	__u16		tp_net;
 	__u16		tp_vlan_tci;
 };
+#endif
 /*add end*/
 
 /* "struct client_config_t client_config" is in bb_common_bufsiz1 */
