@@ -884,6 +884,10 @@ static int try_to_resolve_remote(remoteHost_t *rh)
 }
 #endif
 
+void donothing(int sig )
+{
+	return;
+}
 static void do_syslogd(void) NORETURN;
 static void do_syslogd(void)
 {
@@ -899,7 +903,7 @@ static void do_syslogd(void)
 #endif
 
 	/* Set up signal handlers (so that they interrupt read()) */
-	signal_no_SA_RESTART_empty_mask(SIGTERM, record_signo);
+	signal_SA_RESTART_empty_mask(SIGTERM, donothing);
 	signal_no_SA_RESTART_empty_mask(SIGINT, record_signo);
 	//signal_no_SA_RESTART_empty_mask(SIGQUIT, record_signo);
 	signal(SIGHUP, SIG_IGN);
