@@ -1031,8 +1031,8 @@ void backup_logfile()
 {
         int i = 0;
 	int ret = 0;
-	char filen[20] = {0};
-	char fileold[20] = {0};
+	char filen[50] = {0};
+	char fileold[50] = {0};
 	int  filp = NULL;
 
 	if(-1 == mk_dir())
@@ -1059,10 +1059,13 @@ void backup_logfile()
 	{
 		for(i = 1; i <= FILE_NUM+1; i++)
 		{
+			memset(fileold, 0, sizeof(fileold));
 			memcpy(fileold, filen, sizeof(fileold));
 			sprintf(filen, "%s%d", LOG_FILE, i);		
 			if(1 == i)	
+			{
 				unlink(filen);	/*delete the first one*/	
+			}
 			else if(FILE_NUM+1 == i)
 			{
 				if(rename(LOG_FILE, fileold))
@@ -1070,7 +1073,10 @@ void backup_logfile()
 			}
 			else
 				if(rename(filen, fileold))
+				{
+					printf("rename %s to %s failed, errno=%d\n",filen,fileold,errno);
 					return;
+				}
 		}
 		
 	}
@@ -1079,6 +1085,7 @@ void backup_logfile()
 			return;
 	return;
 }
+
 int syslogd_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
 int syslogd_main(int argc UNUSED_PARAM, char **argv)
 {
@@ -1089,6 +1096,27 @@ int syslogd_main(int argc UNUSED_PARAM, char **argv)
 #endif
 
 	INIT_G();
+
+/*add by zhangjj 2016-8-15 for CMCC test*/
+#if 0
+	struct sigaction sig;
+	struct sigaction osig;
+
+	sig.sa_handler = donothing;
+	sigemptyset (&sig.sa_mask);
+	sigaddset(&sig.sa_mask, SIGTERM);
+
+	sig.sa_flags = 0;
+printf("before sigaction\n");
+	if ( sigaction (SIGTERM, &sig, 0)< 0)
+	{
+		printf("set SIGTERM OK\n");
+		return (SIG_ERR);
+	}
+printf("after sigaction\n");
+#endif
+/*add end*/
+
 
 	/* No non-option params, -R can occur multiple times */
 	opt_complementary = "=0" IF_FEATURE_REMOTE_LOG(":R::");

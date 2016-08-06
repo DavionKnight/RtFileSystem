@@ -10,7 +10,7 @@
 #  Description    	:
 #
 
-#export PATH=$PATH:/opt/eldk-5.2/mips/sysroots/i686-eldk-linux/usr/bin/:/opt/eldk-5.2/mips/sysroots/i686-eldk-linux/usr/bin/mips32-linux/
+export PATH=$PATH:/opt/mips/eldk4.1/usr/bin/:/opt/mips/eldk4.1/bin
 PREPATH=${PWD}
 rm ${PREPATH}/Output -rf
 mkdir ${PREPATH}/Output
@@ -18,10 +18,10 @@ mkdir ${PREPATH}/Output
 chmod +x configure
 #if false;then
 ./configure \
-	CC=mips-linux-gcc \
+	CC=mips_4KC-gcc \
 	--host=mipsel-linux \
 	--prefix=${PREPATH}/Output \
-	--sysconfdir=/et/dropbear	\
+	--sysconfdir=/etc/dropbear	\
 	--disable-pam
 #fi
 
