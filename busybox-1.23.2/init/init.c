@@ -957,7 +957,32 @@ static void reload_inittab(void)
 	/* - we return to main loop, which does this automagically */
 }
 #endif
+/*add by zhangjj 2016-8-18 for IPRAN reboot invalid*/
+int check_delayed_sigs_now(void)
+{
 
+	smallint sig = bb_got_signal;
+
+	if (!sig)
+		return 0;
+
+	bb_got_signal = 0;
+
+	if (sig == SIGQUIT) {
+		exec_restart_action();
+		/* returns only if no restart action defined */
+	}
+	if ((1 << sig) & (0
+#ifdef SIGPWR
+				+ (1 << SIGPWR)
+#endif
+				+ (1 << SIGUSR1)
+				+ (1 << SIGUSR2)
+				+ (1 << SIGTERM)
+			 )) {
+		halt_reboot_pwoff(sig);
+	}
+}
 static int check_delayed_sigs(void)
 {
 	int sigs_seen = 0;

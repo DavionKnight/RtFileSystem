@@ -13,10 +13,11 @@
 
 /* All known arches use small ints for signals */
 smallint bb_got_signal;
-
+extern int check_delayed_sigs_now(void);
 void record_signo(int signo)
 {
 	bb_got_signal = signo;
+	check_delayed_sigs_now();
 }
 
 /* Saves 2 bytes on x86! Oh my... */
