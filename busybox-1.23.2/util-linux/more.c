@@ -197,6 +197,7 @@ int more_main(int argc UNUSED_PARAM, char **argv)
 				 * display the prompt (if any), so we skip the putchar()
 				 * and go back to the top of the loop, without reading
 				 * a new character. */
+				putchar('\n');
 				goto loop_top;
 			}
 			/* My small mind cannot fathom backspaces and UTF-8 */
