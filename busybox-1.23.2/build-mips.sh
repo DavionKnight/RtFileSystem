@@ -13,7 +13,7 @@
 export PATH=/opt/mips/eldk4.1/usr/bin:/opt/mips/eldk4.1/:$PATH
 export CROSS_COMPILE=mips_4KC-
 
-#make clean
+make clean
 
 make 
 

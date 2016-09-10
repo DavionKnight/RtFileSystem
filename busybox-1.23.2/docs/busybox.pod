@@ -108,14 +108,14 @@ Currently available applets include:
 	ntpd, od, openvt, passwd, patch, pgrep, pidof, ping, ping6,
 	pipe_progress, pivot_root, pkill, pmap, popmaildir, poweroff,
 	powertop, printenv, printf, ps, pscan, pstree, pwd, pwdx,
-	raidautorun, rdate, rdev, readahead, readlink, readprofile,
-	realpath, reboot, reformime, remove-shell, renice, reset, resize,
-	rev, rm, rmdir, rmmod, route, rpm, rpm2cpio, rtcwake, run-parts,
-	runlevel, runsv, runsvdir, rx, script, scriptreplay, sed, sendmail,
-	seq, setarch, setconsole, setfont, setkeycodes, setlogcons,
-	setserial, setsid, setuidgid, sh, sha1sum, sha256sum, sha3sum,
-	sha512sum, showkey, shuf, slattach, sleep, smemcap, softlimit, sort,
-	split, start-stop-daemon, stat, strings, stty, su, sulogin, sum, sv,
+	raidautorun, rdate, rdev, readlink, readprofile, realpath, reboot,
+	reformime, remove-shell, renice, reset, resize, rev, rm, rmdir,
+	rmmod, route, rpm, rpm2cpio, rtcwake, run-parts, runlevel, runsv,
+	runsvdir, rx, script, scriptreplay, sed, sendmail, seq, setarch,
+	setconsole, setfont, setkeycodes, setlogcons, setserial, setsid,
+	setuidgid, sh, sha1sum, sha256sum, sha3sum, sha512sum, showkey,
+	shuf, slattach, sleep, smemcap, softlimit, sort, split,
+	start-stop-daemon, stat, strings, stty, su, sulogin, sum, sv,
 	svlogd, swapoff, swapon, switch_root, sync, sysctl, syslogd, tac,
 	tail, tar, tcpsvd, tee, telnet, telnetd, test, tftp, tftpd, time,
 	timeout, top, touch, tr, traceroute, traceroute6, true, tty,
@@ -2736,12 +2736,6 @@ Get and possibly set the system date/time from a remote HOST
 rdev 
 
 Print the device node associated with the filesystem mounted at '/'
-
-=item B<readahead>
-
-readahead [FILE]...
-
-Preload FILEs to RAM
 
 =item B<readlink>
 

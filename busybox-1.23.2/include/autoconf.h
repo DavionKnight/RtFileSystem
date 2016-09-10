@@ -2,7 +2,7 @@
  * Automatically generated C config: don't edit
  * Busybox version: 1.23.2
  */
-#define AUTOCONF_TIMESTAMP "2016-01-27 11:07:58 CST"
+#define AUTOCONF_TIMESTAMP "2016-09-11 07:28:25 CST"
 
 #define CONFIG_HAVE_DOT_CONFIG 1
 #define ENABLE_HAVE_DOT_CONFIG 1
@@ -312,14 +312,10 @@
 #define ENABLE_FEATURE_SHARED_BUSYBOX 0
 #define IF_FEATURE_SHARED_BUSYBOX(...)
 #define IF_NOT_FEATURE_SHARED_BUSYBOX(...) __VA_ARGS__
-#define CONFIG_LFS 1
-#define ENABLE_LFS 1
-#ifdef MAKE_SUID
-# define IF_LFS(...) __VA_ARGS__ "CONFIG_LFS"
-#else
-# define IF_LFS(...) __VA_ARGS__
-#endif
-#define IF_NOT_LFS(...)
+#undef CONFIG_LFS
+#define ENABLE_LFS 0
+#define IF_LFS(...)
+#define IF_NOT_LFS(...) __VA_ARGS__
 #define CONFIG_CROSS_COMPILER_PREFIX "/home/kevin/Documents/ppc-tools/usr/bin/ppc_85xxDP-"
 #define ENABLE_CROSS_COMPILER_PREFIX 1
 #ifdef MAKE_SUID
@@ -3492,10 +3488,14 @@
 # define IF_FDISK(...) __VA_ARGS__
 #endif
 #define IF_NOT_FDISK(...)
-#undef CONFIG_FDISK_SUPPORT_LARGE_DISKS
-#define ENABLE_FDISK_SUPPORT_LARGE_DISKS 0
-#define IF_FDISK_SUPPORT_LARGE_DISKS(...)
-#define IF_NOT_FDISK_SUPPORT_LARGE_DISKS(...) __VA_ARGS__
+#define CONFIG_FDISK_SUPPORT_LARGE_DISKS 1
+#define ENABLE_FDISK_SUPPORT_LARGE_DISKS 1
+#ifdef MAKE_SUID
+# define IF_FDISK_SUPPORT_LARGE_DISKS(...) __VA_ARGS__ "CONFIG_FDISK_SUPPORT_LARGE_DISKS"
+#else
+# define IF_FDISK_SUPPORT_LARGE_DISKS(...) __VA_ARGS__
+#endif
+#define IF_NOT_FDISK_SUPPORT_LARGE_DISKS(...)
 #define CONFIG_FEATURE_FDISK_WRITABLE 1
 #define ENABLE_FEATURE_FDISK_WRITABLE 1
 #ifdef MAKE_SUID
@@ -4664,14 +4664,10 @@
 # define IF_RAIDAUTORUN(...) __VA_ARGS__
 #endif
 #define IF_NOT_RAIDAUTORUN(...)
-#define CONFIG_READAHEAD 1
-#define ENABLE_READAHEAD 1
-#ifdef MAKE_SUID
-# define IF_READAHEAD(...) __VA_ARGS__ "CONFIG_READAHEAD"
-#else
-# define IF_READAHEAD(...) __VA_ARGS__
-#endif
-#define IF_NOT_READAHEAD(...)
+#undef CONFIG_READAHEAD
+#define ENABLE_READAHEAD 0
+#define IF_READAHEAD(...)
+#define IF_NOT_READAHEAD(...) __VA_ARGS__
 #define CONFIG_RUNLEVEL 1
 #define ENABLE_RUNLEVEL 1
 #ifdef MAKE_SUID

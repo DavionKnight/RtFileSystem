@@ -260,7 +260,6 @@
 /sbin/raidautorun
 /usr/sbin/rdate
 /usr/sbin/rdev
-/usr/sbin/readahead
 /usr/bin/readlink
 /usr/sbin/readprofile
 /usr/bin/realpath
